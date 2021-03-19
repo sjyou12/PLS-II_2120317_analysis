@@ -66,6 +66,20 @@ class SVDCalc:
         plt.legend()
         plt.show()
 
+    def plot_left_vec_with_x_val(self, graph_title, x_val, sep_graph=False):
+        transLeft = np.transpose(self.meanLeftVec)
+        if sep_graph:
+            for sp_idx in range(0, self.meanNum):
+                plt.plot(x_val, transLeft[sp_idx], label=("leftVec" + str(sp_idx + 1)))
+                plt.title("Left singular vectors")
+                plt.legend()
+                plt.show()
+        for sp_idx in range(0, self.meanNum):
+            plt.plot(x_val, transLeft[sp_idx], label=("leftVec" + str(sp_idx + 1)))
+        plt.title(graph_title)
+        plt.legend()
+        plt.show()
+
     def plot_right_Vec(self, abs=False, v_line_1=0.0, v_line_2=0.0, sep_graph=False):
         transRight = np.transpose(self.meanRightVec)
         if abs:
@@ -89,6 +103,32 @@ class SVDCalc:
             plt.axvline(x=v_line_2, color='r')
         # plt.ylim(-0.05, 0.05)
         plt.title("Right singular vectors")
+        plt.legend()
+        plt.show()
+
+    def plot_right_vec_with_x_text(self, graph_title, x_text, v_line_1=0.0, v_line_2=0.0, sep_graph=False):
+        transRight = np.transpose(self.meanRightVec)
+        if sep_graph:
+            for sp_idx in range(0, self.meanNum):
+                plt.plot(transRight[sp_idx], label=("rightVec" + str(sp_idx + 1)))
+                if v_line_1 != 0.0:
+                    plt.axvline(x=v_line_1, color='r')
+                if v_line_2 != 0.0:
+                    plt.axvline(x=v_line_2, color='r')
+                # plt.ylim(-0.05, 0.05)
+                plt.title("Right singular vectors")
+                plt.legend()
+                plt.show()
+        for sp_idx in range(0, self.meanNum):
+            value_len = len(transRight[sp_idx])
+            plt.plot(transRight[sp_idx], label=("rightVec" + str(sp_idx + 1)))
+            plt.xticks(ticks=range(value_len), labels=x_text[:value_len])
+        if v_line_1 != 0.0:
+            plt.axvline(x=v_line_1, color='r')
+        if v_line_2 != 0.0:
+            plt.axvline(x=v_line_2, color='r')
+        # plt.ylim(-0.05, 0.05)
+        plt.title(graph_title)
         plt.legend()
         plt.show()
 
@@ -117,6 +157,36 @@ class SVDCalc:
             rightFp.write(str(line_num + 1))
             rightFp.write("\t")
             for sp_idx in range(0, self.meanNum):
+                rightFp.write(str(self.meanRightVec[line_num][sp_idx]))
+                rightFp.write("\t")
+            rightFp.write("\n")
+
+    def file_output_singular_vectors_with_label(self, leftFp, rightFp, leftLableName, leftLabel, rightLabelName, rightLabel):
+        # transLeft = np.transpose(self.meanLeftVec)
+        # transRight = np.transpose(self.meanRightVec)
+
+        # print left
+        leftFp.write(leftLableName + "\t")
+        for idx in range(self.meanNum):
+            leftFp.write("leftVec" + str(idx + 1) + "\t")
+        leftFp.write("\n")
+        for line_num in range(self.meanLeftVec.shape[0]):
+            leftFp.write(str(leftLabel[line_num]))
+            leftFp.write("\t")
+            for sp_idx in range(self.meanNum):
+                leftFp.write(str(self.meanLeftVec[line_num][sp_idx]))
+                leftFp.write("\t")
+            leftFp.write("\n")
+
+        # print right
+        rightFp.write(rightLabelName + "\t")
+        for idx in range(self.meanNum):
+            rightFp.write("rightVec" + str(idx + 1) + "\t")
+        rightFp.write("\n")
+        for line_num in range(self.meanRightVec.shape[0]):
+            rightFp.write(str(rightLabel[line_num]))
+            rightFp.write("\t")
+            for sp_idx in range(self.meanNum):
                 rightFp.write(str(self.meanRightVec[line_num][sp_idx]))
                 rightFp.write("\t")
             rightFp.write("\n")

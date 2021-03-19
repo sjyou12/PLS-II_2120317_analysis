@@ -9,12 +9,13 @@ parser.add_argument('-f', '--file', nargs=1, dest='anal_filename',
 args = parser.parse_args()
 
 # important !! : replace file save root
-common_raw_file_root = "raw_data/"
+common_raw_file_root = "/home/bl1cuser/specdata/20210317-Kim/"
 
 # custom setting, can change.
 cut_file_root = "cut_data/"
 default_name = "sample_clear"
-result_out_root = "results/single_run/"
+result_out_root = "results/single_file_all_run/"
+file_out = True
 
 raw_data_file = None
 processed_data_file = None
@@ -34,7 +35,7 @@ else:
     print('read file : ' + raw_data_file)
     outfile_name = arg_filename
 
-os_inst = 'cat ' + raw_data_file + ' | grep -v "#" | grep -v -e "^$" >> ' + processed_data_file
+os_inst = 'cat ' + raw_data_file + ' | grep -v "#" | grep -v -e "^$" > ' + processed_data_file
 print(os_inst)
 os.system(os_inst)
 
@@ -49,8 +50,8 @@ data_arr_2d = np.vstack(whole_data_arr)
 
 # please use zero-based index
 energy_line_idx = 0
-I0_line_idx = 4
-intensity_line_idx = 7
+I0_line_idx = 8 #qbI
+intensity_line_idx = 14 #fpd
 
 energy_val_arr = data_arr_2d[:, energy_line_idx]
 norm_int = np.divide(data_arr_2d[:, intensity_line_idx], data_arr_2d[:, I0_line_idx])
@@ -58,7 +59,6 @@ norm_int = np.divide(data_arr_2d[:, intensity_line_idx], data_arr_2d[:, I0_line_
 plt.scatter(energy_val_arr, norm_int)
 plt.show()
 
-file_out = True
 if file_out:
     outfile_fullname = result_out_root + outfile_name + ".dat"
     outFp = open(outfile_fullname, 'w')
