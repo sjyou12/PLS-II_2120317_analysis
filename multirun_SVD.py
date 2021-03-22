@@ -5,14 +5,18 @@ import re
 
 # important !! : replace file list used for SVD
 # object_file_list = ["210317_010", "210319_002", "210317_014", "210317_016", "210317_018", "210317_020", "210318_001", "210318_003", "210319_001", "210318_023", "210318_021", "210318_011", "210318_014", "210318_016"]  # for L3 SVD
-object_file_list = ["210319_005", "210319_003", "210317_015", "210317_017", "210317_019", "210317_021", "210318_002", "210318_004", "210318_006", "210318_024", "210318_022", "210318_012", "210318_015", "210318_017"]  # for L1 SVD
+# object_file_list = ["210319_005", "210319_003", "210317_015", "210317_017", "210317_019", "210317_021", "210318_002", "210318_004", "210318_006", "210318_024", "210318_022", "210318_012", "210318_015", "210318_017"]  # for L1 SVD
+object_file_list = ["SFM_210320_00028", "SFM_210320_00029", "SFM_210320_00030", "SFM_210320_00031"] \
+                   + ["SFM_210319_00003", "SFM_210319_00004", "SFM_210319_00008"] \
+                   + ["SFM_210321_00015", "SFM_210321_00016", "SFM_210321_00017"]  # for G1 special
 singular_show_num = 10
 singular_cut_num = 3
-# output_file_name = "L3_SVD"
-output_file_name = "L1_SVD"
+
+outfile_family_name = "SFM_g1_all3_L3"
+
 
 # custom setting, can change
-common_svd_file_root = "results/norm_run_avg/"
+common_svd_file_root = "results/g1_special_analysis/"
 svd_result_root = "results/svd/"
 
 graph_label = {"210317_009": "G1_L1-0317", "210317_010": "G1_L3-0317", "210317_011": "G1+1a_L3", "210317_012": "G1+1a_L1",
@@ -27,13 +31,19 @@ graph_label = {"210317_009": "G1_L1-0317", "210317_010": "G1_L3-0317", "210317_0
                "210319_002": "G1+1a_L3", "210319_003": "G1+1a_L1", "210319_004": "G1_L3-0319",
                "210319_005": "G1_L1-0319", "210319_007": "G1_L1-0319-7"}
 
+graph_label = {"SFM_210320_00028": "g1_run1", "SFM_210320_00029": "g1_run2", "SFM_210320_00030": "g1_run3",
+               "SFM_210320_00031": "g1_run4", "SFM_210319_00003": "g1_thf_run1", "SFM_210319_00004": "g1_thf_run2",
+               "SFM_210319_00008": "g1_thf_run3", "SFM_210321_00015": "g1_re_run1", "SFM_210321_00016": "g1_re_run2",
+               "SFM_210321_00017": "g1_re_run3"} # for g1 special
+
 multiple_data_arr = []
 energy_list = []
 label_list = []
 for file_idx, each_file_name in enumerate(object_file_list):
     now_label = graph_label[each_file_name]
     label_list.append(now_label)
-    now_read_file_name = each_file_name + "_" + now_label + "_norm_avg.dat"
+    # now_read_file_name = each_file_name + "_" + now_label + "_norm_avg.dat"
+    now_read_file_name = each_file_name + "_" + now_label + "_linreg_norm_avg.dat"
     now_file_name = common_svd_file_root + now_read_file_name
     # for first file,
     if file_idx == 0:
@@ -111,21 +121,21 @@ for each_label in label_list:
     if regex_search:
         now_important = regex_search[0][1:-1]
     else:
-        now_important = "G1"
+        # now_important = "G1"
+        now_important = each_label  # for g1 special
     shot_label_list.append(now_important)
 print(shot_label_list)
 
+lsv_title = outfile_family_name + " LSV plot"
+rsv_title = outfile_family_name + " RSV plot"
 # MultiRunSVD.plot_left_vec_with_x_val(graph_title="L3 LSV plot", x_val=energy_list)
 # MultiRunSVD.plot_right_vec_with_x_text(graph_title="L3 RSV plot", x_text=shot_label_list)
-MultiRunSVD.plot_left_vec_with_x_val(graph_title="L1 LSV plot", x_val=energy_list)
-MultiRunSVD.plot_right_vec_with_x_text(graph_title="L1 RSV plot", x_text=shot_label_list)
+MultiRunSVD.plot_left_vec_with_x_val(graph_title=lsv_title, x_val=energy_list)
+MultiRunSVD.plot_right_vec_with_x_text(graph_title=rsv_title, x_text=shot_label_list)
 
-# sVal_file_name = "L3_210319_static_SingVal.dat"
-# rsv_file_name = "L3_210319_static_RSV.dat"
-# lsv_file_name = "L3_210319_static_LSV.dat"
-sVal_file_name = "L1_210319_static_SingVal.dat"
-rsv_file_name = "L1_210319_static_RSV.dat"
-lsv_file_name = "L1_210319_static_LSV.dat"
+sVal_file_name = outfile_family_name + "_SingVal.dat"
+rsv_file_name = outfile_family_name + "_RSV.dat"
+lsv_file_name = outfile_family_name + "_LSV.dat"
 
 sValOutFp = open((svd_result_root + sVal_file_name), 'w')
 rsvOutFp = open((svd_result_root + rsv_file_name), 'w')

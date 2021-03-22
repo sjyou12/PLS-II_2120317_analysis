@@ -6,22 +6,22 @@ each_run_ratio = []
 each_file_ratio = []
 
 # important !! : replace file list used for SVD
-# object_file_list = ["210318_019","210318_017", "210318_015", "210318_012"]
-object_file_list = ["210318_018", "210318_016", "210318_014", "210318_011"]
-# object_file_list = ["210317_014", "210317_011"]
+object_file_list = ["SFM_210321_00002"]
+# object_file_list = ["SFM_210319_G1_L3_f25_run_avg", "SFM_210319_G1_1a_L3_f25_run_avg", "SFM_210319_G1_1b_L3_f25_run_avg", "SFM_210319_G1_1c_L3_f25_run_avg"]
 # object_file_list = ["210317_021", "210317_019", "210317_017", "210317_015", "210317_012", "210317_009"]
     # L3 ["210317_020", "210317_018", "210317_016", "210317_014", "210317_011", "210317_010"]
     # L1 ["210317_019", "210317_017", "210317_015", "210317_012", "210317_009"]
-each_file_plot = False
-# each_file_plot = True
+# each_file_plot = False
+each_file_plot = True
 each_run_plot = True
-hand_control_ratio = True
-# hand_control_ratio = False
+# hand_control_ratio = True
+hand_control_ratio = False
 
 if hand_control_ratio:
     # each_run_ratio = [1, 1, 14, 14, 14]
     # each_run_ratio = [1, 1.03, 1.05, 1.095, 1.085, 1.085]
-    each_run_ratio = [1,1,1,1,1,1,1,1,1,1,1,1]
+    # each_run_ratio = [1,1,1,1,1,1,1,1,1,1,1,1]
+    each_run_ratio = [1,1]
     # each_run_ratio = [1.2,1.2,1.2,1.17,1.17,1.17,1.05,1.06,1.06,1,1,1,1.37,1.42,1.8,1.15,1.18,1.22]
     # L3 [1.15,1.15,1.15,1.15,1.13,1.13,1.13,1.06,1.06,1.06,1,1,1,1.5,1.5,1.5,1.48,1.53,1.54]
     # L1 [1.2,1.2,1.2,1.17,1.17,1.17,1.05,1.06,1.06,1,1,1,1.37,1.42,1.8,1.15,1.18,1.22]
@@ -30,12 +30,12 @@ if hand_control_ratio:
 else:
     # each_file_ratio = [1, 15]
     # each_file_ratio = [1,1,1,1,1,1,1,1,1]
-    each_file_ratio = [1, 1, 1, 1]
+    each_file_ratio = [1, 1]
 
-step_num_in_command = 70
+step_num_in_command = 71
 
 # custom setting, can change
-common_file_root = "results/single_file_all_run/" #change "results/file_run_avg/"
+common_file_root = "results/file_run_avg/" #"results/single_file_all_run/" #change
 
 all_data_arr = []
 all_energy_arr = []
